@@ -47,10 +47,6 @@ public class DocumentParser {
 		}
 		
 		DeleteOldFiles(14, patientFiles);
-		
-
-
-
 	}
 
 	static void ReadDowntimeFiles(String inputFile, String outFilePath) throws IOException {
@@ -79,7 +75,6 @@ public class DocumentParser {
 
 				startPage = page + 1;
 			}
-
 		}
 		reader.close();
 		System.out.println("number of patients: " + String.valueOf(patient));
@@ -107,8 +102,6 @@ public class DocumentParser {
 
 			sourceDocument.open();
 			
-
-
 			// Walk the specified range and add the page copies to the output
 			// file:
 			for (int i = startPage; i <= endPage; i++) {
@@ -116,13 +109,12 @@ public class DocumentParser {
 				pdfCopyProvider.addPage(importedPage);
 			}
 
-
 			sourceDocument.close();
 			reader.close();
 			pdfCopyProvider.close();
 			
 		} catch (Exception ex) {
-
+			System.out.println(ex.getMessage());
 		}
 	}
 
@@ -139,9 +131,7 @@ public class DocumentParser {
 			if (file.getName().endsWith(".tif")) {
 				file.delete();
 			}
-
 		}
-
 	}
 
 	public static void Tiff2Pdf(File[] fileArray, String outputPath) throws DocumentException, IOException {
@@ -166,7 +156,6 @@ public class DocumentParser {
 				writer.close();
 				ra.close();
 				file.delete();
-
 			}
 		}
 	}
