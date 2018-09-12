@@ -7,15 +7,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.RandomAccessFileOrArray;
-import com.itextpdf.text.pdf.codec.TiffImage;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 public class DocumentParser {
@@ -24,6 +18,9 @@ public class DocumentParser {
 		
 		String inFilePath = "D:\\MEDITECH\\Downtime\\";
 		String outFilePath = "D:\\MEDITECH\\Downtime\\Patients\\";
+		
+		//String inFilePath = "C:\\MEDITECH\\Downtime\\";
+		//String outFilePath = "C:\\MEDITECH\\Downtime\\Patients\\";
 
 		File directory = new File(inFilePath);
 		File[] fileArray = directory.listFiles();
@@ -38,13 +35,6 @@ public class DocumentParser {
 
 		File patientDirectory = new File(outFilePath);
 		File[] patientFiles = patientDirectory.listFiles();
-
-		try {
-			Tiff2Pdf(patientFiles, outFilePath);
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		DeleteOldFiles(14, patientFiles);
 	}
@@ -127,35 +117,10 @@ public class DocumentParser {
 					file.delete();
 					System.out.println("Name: " + file.getName() + " DELETED");
 				}
-			}
-			if (file.getName().endsWith(".tif")) {
-				file.delete();
-			}
-		}
-	}
-
-	public static void Tiff2Pdf(File[] fileArray, String outputPath) throws DocumentException, IOException {
-		for (File file : fileArray) {
-			if (file.getName().endsWith(".tif")) {
-				String outputFileName = outputPath + file.getName().substring(0,20) + ".pdf";
-				Document document = new Document();
-				PdfWriter writer = PdfWriter.getInstance(document,  new FileOutputStream(outputFileName));
-				document.open();
-				
-				RandomAccessFileOrArray ra = new RandomAccessFileOrArray(file.toString());
-				int pages = TiffImage.getNumberOfPages(ra);
-				Image image;
-				for (int i = 1; i <= pages; i++) {
-					image = TiffImage.getTiffImage(ra, i);
-					Rectangle pageSize = new Rectangle(image.getWidth(), image.getHeight());
-					document.setPageSize(pageSize);
-					document.newPage();
-					document.add(image);	
-				}
-				document.close();
-				writer.close();
-				ra.close();
-				file.delete();
+				if (file.getName().contains("_SUMMARY.pdf") && TimeUnit.MILLISECONDS.toDays(diff) >= 1) {
+					file.delete();
+					System.out.println("Name: " + file.getName() + " DELETED");
+				}	
 			}
 		}
 	}
