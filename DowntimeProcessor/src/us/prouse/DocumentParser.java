@@ -36,7 +36,7 @@ public class DocumentParser {
 		File patientDirectory = new File(outFilePath);
 		File[] patientFiles = patientDirectory.listFiles();
 		
-		DeleteOldFiles(14, patientFiles);
+		DeleteOldFiles(7, patientFiles);
 	}
 
 	static void ReadDowntimeFiles(String inputFile, String outFilePath) throws IOException {
