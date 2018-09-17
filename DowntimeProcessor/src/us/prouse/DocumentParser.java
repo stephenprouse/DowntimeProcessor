@@ -22,21 +22,26 @@ public class DocumentParser {
 		//String inFilePath = "C:\\MEDITECH\\Downtime\\";
 		//String outFilePath = "C:\\MEDITECH\\Downtime\\Patients\\";
 
+		
 		File directory = new File(inFilePath);
 		File[] fileArray = directory.listFiles();
-
-		for (File file : fileArray) {
-			if (file.getName().endsWith(".pdf")) {
-				System.out.println(file.getAbsolutePath());
-				ReadDowntimeFiles(file.getAbsolutePath(), outFilePath);
-				file.delete();
-			}
-		}
-
-		File patientDirectory = new File(outFilePath);
-		File[] patientFiles = patientDirectory.listFiles();
 		
-		DeleteOldFiles(7, patientFiles);
+		if (fileArray != null) {
+			for (File file : fileArray) {
+				if (file.getName().endsWith(".pdf")) {
+					System.out.println(file.getAbsolutePath());
+					ReadDowntimeFiles(file.getAbsolutePath(), outFilePath);
+					file.delete();
+				}
+			}
+			
+			File patientDirectory = new File(outFilePath);
+			File[] patientFiles = patientDirectory.listFiles();
+			
+			DeleteOldFiles(7, patientFiles);
+		} else {
+			System.out.println("Directory is null or empty");
+		}		
 	}
 
 	static void ReadDowntimeFiles(String inputFile, String outFilePath) throws IOException {
